@@ -76,7 +76,7 @@ function deletePost(item) {
       method: 'DELETE',
     }).then((response) => resolve(response))
       .catch((error) => {
-        console.log('Delete Error:', error);
+        console.error('Delete Error:', error);
         reject(error);
       });;
   })

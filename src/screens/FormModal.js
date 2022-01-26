@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Row, Col, Modal, Form } from "react-bootstrap";
+import { Button, Modal, Form } from "react-bootstrap";
 import "../styles/style.css";
 import { addNewPost, updatePost } from '../services/apiServices';
 
@@ -22,7 +22,6 @@ function FormModal({ isModalVisible, hideModal, isNewForm, data = {} }) {
       body: body,
       userId: userId
     }
-    console.log("Event submtt :>>", formObj);
     event.preventDefault();
     if (isNewForm) {
       addNewPost(formObj).then((data) => {

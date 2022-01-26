@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal } from "react-bootstrap";
+import { Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { deletePost, updatePost } from '../services/apiServices';
 import "../styles/style.css";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
@@ -28,7 +28,6 @@ function PostFooter({ data, activeToast, selectedPostItemEvent }) {
   }
 
   const updateEvent = (item) => {
-    console.log("update event :>>", item);
     setModalVisible(true);
   }
 
@@ -53,16 +52,31 @@ function PostFooter({ data, activeToast, selectedPostItemEvent }) {
           hideModal={hideModal}
           isNewForm={false}
           data={data} /> : null}
+
       <div className='footer'>
-        <span onClick={() => renderViewModal(data)} className='viewStyle'>
-          <FaEye />
-        </span>
-        <span onClick={() => updateEvent(data)} className='viewStyle'>
-          <FaEdit />
-        </span>
-        <span onClick={() => deleteEvent(data)} className='viewStyle'>
-          <FaTrash />
-        </span>
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id={`tooltip-top`}>View the post</Tooltip>}>
+          <span onClick={() => renderViewModal(data)} className='viewStyle'>
+            <FaEye />
+          </span>
+        </OverlayTrigger>
+
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id={`tooltip-top`}>Edit the post</Tooltip>}>
+          <span onClick={() => updateEvent(data)} className='viewStyle'>
+            <FaEdit />
+          </span>
+        </OverlayTrigger>
+
+        <OverlayTrigger
+          placement="top"
+          overlay={<Tooltip id={`tooltip-top`}>Delete the post</Tooltip>}>
+          <span onClick={() => deleteEvent(data)} className='viewStyle'>
+            <FaTrash />
+          </span>
+        </OverlayTrigger>
         {renderModal()}
       </div>
     </>
