@@ -3,8 +3,8 @@ import { Button, Container, Row, Col } from "react-bootstrap";
 
 export default function Header() {
   return (
-  <div>
-    <h3>Header section</h3>
-  </div>
+    <Container className='headerContainer'>
+      <h3>{`{JSON} Placeholder`}</h3>
+    </Container>
   );
 }

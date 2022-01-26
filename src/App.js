@@ -1,9 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
 import { Button, Container, Row, Col } from "react-bootstrap";
 import Header from './screens/Header';
 import GetPosts from './screens/GetPosts';
 import NewPosts from './screens/NewPosts';
+import Footer from "./screens/Footer";
 
 function App() {
   return (
@@ -12,6 +11,7 @@ function App() {
         <Header />
         <NewPosts />
         <GetPosts />
+        <Footer />
       </Container>
     </div>
   );
