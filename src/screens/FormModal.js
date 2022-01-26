@@ -1,33 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Container, Row, Col, Modal, Form } from "react-bootstrap";
 import "../styles/style.css";
-import { addNewPost } from '../services/apiServices';
+import { addNewPost, updatePost } from '../services/apiServices';
 
-function FormModal({ isModalVisible, hideModal }) {
+function FormModal({ isModalVisible, hideModal, isNewForm, data = {} }) {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [userId, setUserId] = useState("");
 
-  const [form, setForm] = useState({})
+  useEffect(() => {
+    if (!isNewForm) {
+      setTitle(data.title);
+      setBody(data.body);
+      setUserId(data.userId);
+    }
+  }, [])
 
   const handleSubmit = event => {
-    console.log("Event submtt :>>", form);
+    let formObj = {
+      title: title,
+      body: body,
+      userId: userId
+    }
+    console.log("Event submtt :>>", formObj);
     event.preventDefault();
-    addNewPost(form).then((data) => {
-      console.log("After response :>>", data);
-      if (data) {
-        alert("Successfully, added data !!")
-      } else {
-        alert("Failed to add data !!")
-      }
-    });
+    if (isNewForm) {
+      addNewPost(formObj).then((data) => {
+        data ? alert("Successfully, added data !!") : alert("Failed to add data !!");
+      });
+    } else {
+      updatePost(formObj).then((data) => {
+        data ? alert("Updated data !!") : alert("Failed to update data !!");
+      });
+    }
     hideModal();
   };
-
-  /* Dynamically create state variable for form field */
-  const setField = (field, value) => {
-    setForm({
-      ...form,
-      [field]: value
-    })
-  }
 
   /* Render Form component */
   const renderForm = () => {
@@ -37,22 +44,24 @@ function FormModal({ isModalVisible, hideModal }) {
           <Form.Control
             type="text"
             placeholder="Enter the title"
-            onChange={e => setField('title', e.target.value)}
-            required />
+            onChange={e => setTitle(e.target.value)}
+            value={title} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBody">
           <Form.Control
             type="text"
             placeholder="Enter the body"
-            onChange={e => setField('body', e.target.value)} />
+            onChange={e => setBody(e.target.value)}
+            value={body} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formUserId">
           <Form.Control
             type="number"
             placeholder="Enter the user id"
-            onChange={e => setField('userId', e.target.value)} />
+            onChange={e => setUserId(e.target.value)}
+            value={userId} />
         </Form.Group>
       </Form>
     )
@@ -62,12 +71,16 @@ function FormModal({ isModalVisible, hideModal }) {
     <>
       <Modal show={isModalVisible} onHide={hideModal}>
         <Modal.Header>
-          <Modal.Title>{`Create new post`}</Modal.Title>
+          <Modal.Title>
+            {isNewForm ? `Create new post` : `Update the post`}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>{renderForm()}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={hideModal}>Close</Button>
-          <Button variant="primary" onClick={handleSubmit}>Submit</Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            {isNewForm ? 'Submit' : 'Update'}
+          </Button>
         </Modal.Footer>
       </Modal>
     </>

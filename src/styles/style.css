@@ -18,11 +18,13 @@
 }
 .footer{
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-end;
   align-items: center;
 }
 .viewStyle{
   cursor: pointer;
+  padding: 5px 5px;
+  margin: 5px;
 }
 .toastContainer{
   position: relative;

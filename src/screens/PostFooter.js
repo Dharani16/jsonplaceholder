@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { Modal } from "react-bootstrap";
 import { deletePost, updatePost } from '../services/apiServices';
 import "../styles/style.css";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import FormModal from './FormModal';
 
 function PostFooter({ data, activeToast, selectedPostItemEvent }) {
   const [isViewPost, setViewPost] = useState(false);
   const [selectedPost, setSelectedPost] = useState({});
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const renderViewModal = (postItem) => {
     setViewPost(true);
@@ -13,6 +16,7 @@ function PostFooter({ data, activeToast, selectedPostItemEvent }) {
   };
 
   const handleClose = () => setViewPost(false);
+  const hideModal = () => setModalVisible(false);
 
   const deleteEvent = (item) => {
     selectedPostItemEvent(item);
@@ -25,9 +29,7 @@ function PostFooter({ data, activeToast, selectedPostItemEvent }) {
 
   const updateEvent = (item) => {
     console.log("update event :>>", item);
-    // updatePost(item).then((data) => {
-    //   console.log("Update response component :>>", data);
-    // });
+    setModalVisible(true);
   }
 
   /* Renders modal component */
@@ -45,15 +47,21 @@ function PostFooter({ data, activeToast, selectedPostItemEvent }) {
 
   return (
     <>
+      {isModalVisible ?
+        <FormModal
+          isModalVisible={isModalVisible}
+          hideModal={hideModal}
+          isNewForm={false}
+          data={data} /> : null}
       <div className='footer'>
         <span onClick={() => renderViewModal(data)} className='viewStyle'>
-          <p>View</p>
+          <FaEye />
         </span>
         <span onClick={() => updateEvent(data)} className='viewStyle'>
-          <p>Update</p>
+          <FaEdit />
         </span>
         <span onClick={() => deleteEvent(data)} className='viewStyle'>
-          <p>Delete</p>
+          <FaTrash />
         </span>
         {renderModal()}
       </div>

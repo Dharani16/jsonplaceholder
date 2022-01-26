@@ -1,4 +1,3 @@
-import React from 'react';
 const BASE_URL = 'https://jsonplaceholder.typicode.com/';
 const GET_POSTS = 'posts';
 
@@ -44,16 +43,15 @@ function getAllPosts() {
 }
 
 function updatePost(item) {
-  console.log("apiservice updatePost :>>", item);
   return new Promise((resolve, reject) => {
-    const UPDATE_URL = `${BASE_URL}${GET_POSTS}/${item.id}`;
+    const UPDATE_URL = `${BASE_URL}${GET_POSTS}/${item.userId}`;
     const headerParam = {
       method: 'PUT',
       body: JSON.stringify({
-        id: 1,
-        title: 'foo',
-        body: 'bar',
-        userId: 1,
+        id: item.id,
+        title: item.title,
+        body: item.body,
+        userId: item.userId,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -61,7 +59,9 @@ function updatePost(item) {
     }
     fetch(UPDATE_URL, headerParam)
       .then((response) => response.json())
-      .then((json) => resolve(json))
+      .then((json) => {
+        resolve(json);
+      })
       .catch((error) => {
         console.error('Update Error:', error);
         reject(error);
@@ -70,7 +70,6 @@ function updatePost(item) {
 }
 
 function deletePost(item) {
-  console.log("apiservice deletePost item :>>", item);
   return new Promise((resolve, reject) => {
     const DELETE_URL = `${BASE_URL}${GET_POSTS}/${item.id}`;
     fetch(DELETE_URL, {

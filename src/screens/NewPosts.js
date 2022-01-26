@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col, Modal, Form } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import "../styles/style.css";
 import FormModal from './FormModal';
 
@@ -14,7 +14,8 @@ function NewPosts() {
       {isModalVisible ?
         <FormModal
           isModalVisible={isModalVisible}
-          hideModal={hideModal} /> : null}
+          hideModal={hideModal}
+          isNewForm={true} /> : null}
       <Row>
         <Col sm={8}></Col>
         <Col sm={4}>
